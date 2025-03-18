@@ -8,22 +8,23 @@ let existingUserButton = document.getElementById("existing");
 // Hide "Login as existing user" initially
 existingUserButton.style.display = "none";
 
-// Check if credentials exist in localStorage
+// Load saved credentials (if any)
 window.onload = function () {
     let storedUser = localStorage.getItem("userObj");
 
     if (storedUser) {
         let userObj = JSON.parse(storedUser);
         existingUserButton.style.display = "block";
+
         existingUserButton.addEventListener("click", function () {
             alert(`Logged in as ${userObj.username}`);
         });
     }
 };
 
-// Form submission event
+// Handle form submission
 submitButton.addEventListener("click", function (event) {
-    event.preventDefault(); 
+    event.preventDefault(); // Prevent form from refreshing
 
     let username = usernameInput.value.trim();
     let password = passwordInput.value.trim();
@@ -33,10 +34,7 @@ submitButton.addEventListener("click", function (event) {
         alert(`Logged in as ${username}`);
 
         if (rememberMe) {
-            let userObj = {
-                username: username,
-                password: password
-            };
+            let userObj = { username, password };
             localStorage.setItem("userObj", JSON.stringify(userObj));
         } else {
             localStorage.removeItem("userObj");
